@@ -1,0 +1,10 @@
+[11/12/2025 22:57:59] UserID: 2, Vehicles Found: 0
+[11/12/2025 22:58:24] UserID: 2, Vehicles Found: 0
+[11/12/2025 23:00:02] UserID: 2, Vehicles Found: 0
+[11/12/2025 23:00:26] UserID: 2, Vehicles Found: 0
+[11/12/2025 23:02:12] UserID: 2, Vehicles Found (Filtered): 0
+--- ALL VEHICLES IN DB (0) ---
+--------------------------------
+[11/12/2025 23:02:34] UserID: 2, Vehicles Found (Filtered): 0
+--- ALL VEHICLES IN DB (0) ---
+--------------------------------

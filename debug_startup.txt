@@ -1,0 +1,54 @@
+12/12/2025 00:01:51: App Constructor Started
+12/12/2025 00:01:51: Configuration/XAML Error: System.Windows.Markup.XamlParseException: 'Set property 'System.Windows.ResourceDictionary.Source' threw an exception.' Line number '10' and line position '18'.
+ ---> System.IO.IOException: Cannot locate resource 'themes/materialdesigntheme.typography.xaml'.
+   at MS.Internal.AppModel.ResourcePart.GetStreamCore(FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackagePart.GetStream(FileMode mode, FileAccess access)
+   at MS.Internal.IO.Packaging.PackagePartExtensions.GetSeekableStream(PackagePart packPart, FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackWebResponse.CachedResponse.GetResponseStream()
+   at System.IO.Packaging.PackWebResponse.get_ContentType()
+   at MS.Internal.WpfWebRequestHelper.GetContentType(WebResponse response)
+   at MS.Internal.WpfWebRequestHelper.GetResponseStream(WebRequest request, ContentType& contentType)
+   at System.Windows.ResourceDictionary.set_Source(Uri value)
+   at MS.Internal.Xaml.Runtime.ClrObjectRuntime.SetValue(Object inst, XamlMember property, Object value)
+   --- End of inner exception stack trace ---
+   at System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   at System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   at System.Windows.Application.LoadComponent(Object component, Uri resourceLocator)
+   at CarRental.BackOffice.App.InitializeComponent() in C:\Users\hp\Documents\projects\dotnet\locationVoiture\CarRental\CarRental.BackOffice\App.xaml:line 1
+   at CarRental.BackOffice.App..ctor() in C:\Users\hp\Documents\projects\dotnet\locationVoiture\CarRental\CarRental.BackOffice\App.xaml.cs:line 21
+12/12/2025 00:01:51: OnStartup Called
+12/12/2025 00:01:51: Resolving LoginWindow...
+12/12/2025 00:01:51: Startup Error: System.ArgumentNullException: Value cannot be null. (Parameter 'provider')
+   at System.ArgumentNullException.Throw(String paramName)
+   at System.ArgumentNullException.ThrowIfNull(Object argument, String paramName)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at CarRental.BackOffice.App.OnStartup(StartupEventArgs e) in C:\Users\hp\Documents\projects\dotnet\locationVoiture\CarRental\CarRental.BackOffice\App.xaml.cs:line 90
+12/12/2025 00:02:33: App Constructor Started
+12/12/2025 00:02:33: Configuration/XAML Error: System.Windows.Markup.XamlParseException: 'Set property 'System.Windows.ResourceDictionary.Source' threw an exception.' Line number '10' and line position '18'.
+ ---> System.IO.IOException: Cannot locate resource 'themes/materialdesigntheme.typography.xaml'.
+   at MS.Internal.AppModel.ResourcePart.GetStreamCore(FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackagePart.GetStream(FileMode mode, FileAccess access)
+   at MS.Internal.IO.Packaging.PackagePartExtensions.GetSeekableStream(PackagePart packPart, FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackWebResponse.CachedResponse.GetResponseStream()
+   at System.IO.Packaging.PackWebResponse.get_ContentType()
+   at MS.Internal.WpfWebRequestHelper.GetContentType(WebResponse response)
+   at MS.Internal.WpfWebRequestHelper.GetResponseStream(WebRequest request, ContentType& contentType)
+   at System.Windows.ResourceDictionary.set_Source(Uri value)
+   at MS.Internal.Xaml.Runtime.ClrObjectRuntime.SetValue(Object inst, XamlMember property, Object value)
+   --- End of inner exception stack trace ---
+   at System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   at System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   at System.Windows.Application.LoadComponent(Object component, Uri resourceLocator)
+   at CarRental.BackOffice.App.InitializeComponent() in C:\Users\hp\Documents\projects\dotnet\locationVoiture\CarRental\CarRental.BackOffice\App.xaml:line 1
+   at CarRental.BackOffice.App..ctor() in C:\Users\hp\Documents\projects\dotnet\locationVoiture\CarRental\CarRental.BackOffice\App.xaml.cs:line 21
+12/12/2025 00:02:33: OnStartup Called
+12/12/2025 00:02:33: Resolving LoginWindow...
+12/12/2025 00:02:33: Startup Error: System.ArgumentNullException: Value cannot be null. (Parameter 'provider')
+   at System.ArgumentNullException.Throw(String paramName)
+   at System.ArgumentNullException.ThrowIfNull(Object argument, String paramName)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at CarRental.BackOffice.App.OnStartup(StartupEventArgs e) in C:\Users\hp\Documents\projects\dotnet\locationVoiture\CarRental\CarRental.BackOffice\App.xaml.cs:line 90

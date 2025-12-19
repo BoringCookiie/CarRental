@@ -1,0 +1,103 @@
+<UserControl x:Class="CarRental.BackOffice.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:CarRental.BackOffice.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900"
+             d:DataContext="{d:DesignInstance Type=vm:DashboardViewModel}"
+             Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="16">
+            <TextBlock Text="📊 Dashboard" FontSize="28" FontWeight="Medium"/>
+            <Button Command="{Binding LoadStatisticsCommand}" 
+                    Content="🔄" FontSize="18"
+                    Background="Transparent" BorderThickness="0"
+                    ToolTip="Refresh" Cursor="Hand"
+                    Margin="16,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Active Rentals -->
+            <Border Grid.Row="0" Grid.Column="0" Margin="8" Padding="20" 
+                    Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="🔑 Active Rentals" FontSize="16" FontWeight="Medium" Foreground="#673AB7"/>
+                    <TextBlock Text="{Binding ActiveRentalsCount}" FontSize="36" FontWeight="Light" 
+                               HorizontalAlignment="Right" Foreground="#673AB7" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Available Vehicles -->
+            <Border Grid.Row="0" Grid.Column="1" Margin="8" Padding="20" 
+                    Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="🚗 Available Vehicles" FontSize="16" FontWeight="Medium" Foreground="Green"/>
+                    <TextBlock Text="{Binding AvailableVehiclesCount}" FontSize="36" FontWeight="Light" 
+                               HorizontalAlignment="Right" Foreground="Green" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Total Clients -->
+            <Border Grid.Row="0" Grid.Column="2" Margin="8" Padding="20" 
+                    Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="👥 Total Clients" FontSize="16" FontWeight="Medium" Foreground="Orange"/>
+                    <TextBlock Text="{Binding TotalClientsCount}" FontSize="36" FontWeight="Light" 
+                               HorizontalAlignment="Right" Foreground="Orange" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Pending Rentals -->
+            <Border Grid.Row="1" Grid.Column="0" Margin="8" Padding="20" 
+                    Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="⏳ Pending Rentals" FontSize="16" FontWeight="Medium" Foreground="Gray"/>
+                    <TextBlock Text="{Binding PendingRentalsCount}" FontSize="36" FontWeight="Light" 
+                               HorizontalAlignment="Right" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Total Revenue -->
+            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="8" Padding="20" 
+                    Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="💰 Total Revenue (Completed)" FontSize="16" FontWeight="Medium" Foreground="DarkGreen"/>
+                    <TextBlock Text="{Binding TotalRevenue, StringFormat=C}" FontSize="36" FontWeight="Light" 
+                               HorizontalAlignment="Right" Foreground="DarkGreen" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

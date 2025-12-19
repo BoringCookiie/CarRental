@@ -1,0 +1,76 @@
+@model IEnumerable<CarRental.Core.Entities.Rental>
+@{ ViewData["Title"] = "My Rentals"; }
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-calendar-check"></i> My Rentals</h2>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> New Booking
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> You have no rentals history. 
+            <a asp-controller="Vehicle" asp-action="Index">Browse vehicles</a> to make your first booking!
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Vehicle</th>
+                        <th>Dates</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rental in Model)
+                    {
+                        <tr>
+                            <td><strong>#@rental.Id</strong></td>
+                            <td>@rental.Vehicle?.Brand @rental.Vehicle?.Model</td>
+                            <td>@rental.StartDate.ToShortDateString() - @rental.EndDate.ToShortDateString()</td>
+                            <td><strong>@rental.TotalPrice.ToString("F2") MAD</strong></td>
+                            <td>
+                                @{
+                                    var badgeClass = rental.Status switch
+                                    {
+                                        CarRental.Core.Enums.RentalStatus.Pending => "bg-warning text-dark",
+                                        CarRental.Core.Enums.RentalStatus.Confirmed => "bg-info",
+                                        CarRental.Core.Enums.RentalStatus.Active => "bg-primary",
+                                        CarRental.Core.Enums.RentalStatus.Completed => "bg-success",
+                                        CarRental.Core.Enums.RentalStatus.Cancelled => "bg-danger",
+                                        _ => "bg-secondary"
+                                    };
+                                }
+                                <span class="badge @badgeClass">@rental.Status</span>
+                            </td>
+                            <td>
+                                <a asp-controller="Pdf" asp-action="DownloadContract" asp-route-rentalId="@rental.Id" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-file-pdf"></i> Download PDF
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+

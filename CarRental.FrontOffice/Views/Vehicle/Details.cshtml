@@ -1,0 +1,109 @@
+@model CarRental.Core.Entities.Vehicle
+@{
+    ViewData["Title"] = $"{Model.Brand} {Model.Model} - Details";
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Vehicles</a></li>
+            <li class="breadcrumb-item active">@Model.Brand @Model.Model</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                @if (Model.Images != null && Model.Images.Any())
+                {
+                    <img src="@Model.Images.First().ImageUrl" class="card-img-top" alt="@Model.Brand @Model.Model" style="height: 300px; object-fit: cover;">
+                }
+                else
+                {
+                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 300px;">
+                        <i class="bi bi-car-front text-white" style="font-size: 5rem;"></i>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h2 class="card-title mb-3">@Model.Brand @Model.Model</h2>
+                    
+                    <div class="d-flex gap-2 mb-3">
+                        <span class="badge bg-primary">@Model.Year</span>
+                        @if (!string.IsNullOrEmpty(Model.Color))
+                        {
+                            <span class="badge bg-secondary">@Model.Color</span>
+                        }
+                        @{
+                            var statusClass = Model.Status switch
+                            {
+                                CarRental.Core.Enums.VehicleStatus.Available => "bg-success",
+                                CarRental.Core.Enums.VehicleStatus.Rented => "bg-warning text-dark",
+                                CarRental.Core.Enums.VehicleStatus.Maintenance => "bg-danger",
+                                CarRental.Core.Enums.VehicleStatus.Reserved => "bg-info",
+                                _ => "bg-secondary"
+                            };
+                        }
+                        <span class="badge @statusClass">@Model.Status</span>
+                    </div>
+
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>License Plate:</th>
+                            <td>@Model.LicensePlate</td>
+                        </tr>
+                        <tr>
+                            <th>Type:</th>
+                            <td>@Model.VehicleType?.Name</td>
+                        </tr>
+                        <tr>
+                            <th>Daily Rate:</th>
+                            <td><span class="h4 text-primary">@Model.DailyPrice.ToString("F2") MAD</span>/day</td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(Model.Features))
+                        {
+                            <tr>
+                                <th>Features:</th>
+                                <td>@Model.Features</td>
+                            </tr>
+                        }
+                    </table>
+
+                    <hr>
+
+                    <div class="d-grid gap-2">
+                        @if (Model.Status == CarRental.Core.Enums.VehicleStatus.Available)
+                        {
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <a asp-controller="Rental" asp-action="Create" asp-route-vehicleId="@Model.Id" 
+                                   class="btn btn-primary btn-lg">
+                                    <i class="bi bi-calendar-check"></i> Book Now
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-lg">
+                                    <i class="bi bi-person"></i> Login to Book
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-lg" disabled>
+                                <i class="bi bi-x-circle"></i> Not Available
+                            </button>
+                        }
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Vehicles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

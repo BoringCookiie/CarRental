@@ -1,0 +1,309 @@
+@model IEnumerable<CarRental.Core.Entities.Vehicle>
+@{ 
+    ViewData["Title"] = "Rent a Vehicle"; 
+    var vehicleTypes = ViewBag.VehicleTypes as IEnumerable<CarRental.Core.Entities.VehicleType>;
+    var currentSearch = ViewBag.CurrentSearch as string;
+    var currentTypeId = ViewBag.CurrentTypeId as int?;
+}
+
+<style>
+    .search-section {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 32px;
+    }
+
+    .search-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 14px 20px;
+        color: white;
+        font-size: 1rem;
+    }
+
+    .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .search-input:focus {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+
+    .type-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 12px 24px;
+        color: white;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .type-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .type-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: transparent;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-search {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 14px 30px;
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .btn-search:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+        color: white;
+    }
+
+    .btn-clear {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 14px 24px;
+        color: white;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-clear:hover {
+        background: rgba(255, 107, 107, 0.3);
+        border-color: rgba(255, 107, 107, 0.5);
+        color: white;
+    }
+
+    .page-title {
+        color: white;
+        text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .vehicle-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .vehicle-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .vehicle-card .card-body {
+        padding: 20px;
+    }
+
+    .vehicle-card .card-title {
+        color: white;
+        font-weight: 700;
+    }
+
+    .vehicle-card .card-text {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .vehicle-card .card-footer {
+        background: rgba(0, 0, 0, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 16px 20px;
+    }
+
+    .price-tag {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    .vehicle-badge {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+
+    .no-results {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 60px 40px;
+        text-align: center;
+    }
+
+    .no-results i {
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 20px;
+    }
+
+    .no-results h4 {
+        color: white;
+    }
+
+    .no-results p {
+        color: rgba(255, 255, 255, 0.6);
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold page-title">Find Your Perfect Ride</h1>
+        <p class="lead page-subtitle">Browse our wide selection of vehicles for every occasion.</p>
+    </div>
+
+    <!-- Search/Filter Section -->
+    <div class="search-section">
+        <form method="get" asp-action="Index" class="row g-3 align-items-end">
+            <!-- Search by Brand -->
+            <div class="col-md-5">
+                <label class="form-label text-white mb-2">
+                    <i class="bi bi-search me-2"></i>Search by Brand or Model
+                </label>
+                <input type="text" name="search" class="form-control search-input" 
+                       placeholder="e.g. Toyota, BMW, Mercedes..." 
+                       value="@currentSearch">
+            </div>
+            
+            <!-- Filter by Type -->
+            <div class="col-md-4">
+                <label class="form-label text-white mb-2">
+                    <i class="bi bi-car-front me-2"></i>Vehicle Type
+                </label>
+                <select name="typeId" class="form-select search-input">
+                    <option value="">All Types</option>
+                    @if (vehicleTypes != null)
+                    {
+                        @foreach (var type in vehicleTypes)
+                        {
+                            <option value="@type.Id" selected="@(currentTypeId == type.Id)">@type.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-search flex-grow-1">
+                        <i class="bi bi-search me-2"></i>Search
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn-clear">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Quick Type Filter Buttons -->
+        <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="text-white me-2 d-flex align-items-center">Quick Filter:</span>
+            <a href="@Url.Action("Index")" class="type-btn @(currentTypeId == null && string.IsNullOrEmpty(currentSearch) ? "active" : "")">
+                <i class="bi bi-grid me-2"></i>All
+            </a>
+            @if (vehicleTypes != null)
+            {
+                @foreach (var type in vehicleTypes)
+                {
+                    <a href="@Url.Action("Index", new { typeId = type.Id })" 
+                       class="type-btn @(currentTypeId == type.Id ? "active" : "")">
+                        @if (type.Name.Contains("SUV", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <i class="bi bi-truck me-2"></i>
+                        }
+                        else if (type.Name.Contains("Sedan", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <i class="bi bi-car-front me-2"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-car-front-fill me-2"></i>
+                        }
+                        @type.Name
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Results -->
+    @if (Model.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var car in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 vehicle-card">
+                        @if(car.Images.Any())
+                        {
+                            <img src="@car.Images.First().ImageUrl" class="card-img-top" alt="@car.Brand" style="height: 200px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-dark text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-car-front" style="font-size: 3rem; opacity: 0.5;"></i>
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@car.Brand @car.Model</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="vehicle-badge">@car.Year</span>
+                                <span class="price-tag">@car.DailyPrice.ToString("F2") MAD<small class="text-white-50" style="font-size: 0.7rem;">/day</small></span>
+                            </div>
+                            @if (car.VehicleType != null)
+                            {
+                                <span class="vehicle-badge"><i class="bi bi-tag me-1"></i>@car.VehicleType.Name</span>
+                            }
+                            <p class="card-text small mt-2">@car.Features</p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary w-100">
+                                <i class="bi bi-eye me-2"></i>View Details & Book
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="no-results">
+            <i class="bi bi-search"></i>
+            <h4>No vehicles found</h4>
+            <p>Try adjusting your search criteria or browse all vehicles.</p>
+            <a href="@Url.Action("Index")" class="btn btn-primary mt-3">
+                <i class="bi bi-arrow-left me-2"></i>View All Vehicles
+            </a>
+        </div>
+    }
+</div>

@@ -1,0 +1,208 @@
+@model CarRental.FrontOffice.Models.EditProfileViewModel
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<style>
+    .profile-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+
+    .profile-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 48px 40px;
+        width: 100%;
+        max-width: 600px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .profile-header i {
+        font-size: 4rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .profile-header h2 {
+        color: white;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .profile-header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+    }
+
+    .profile-form .form-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .profile-form .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 14px 16px;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .profile-form .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .profile-form .form-control:focus {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+
+    .btn-save {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        margin-top: 24px;
+    }
+
+    .btn-save:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+        color: white;
+    }
+
+    .text-danger {
+        color: #ff6b6b !important;
+        font-size: 0.85rem;
+        margin-top: 4px;
+    }
+
+    .alert-success-custom {
+        background: rgba(40, 167, 69, 0.2);
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+        color: #5bff7f;
+        text-align: center;
+    }
+
+    .back-link {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: white;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <a href="/" class="back-link">
+            <i class="bi bi-arrow-left me-2"></i>Back to Home
+        </a>
+
+        <div class="profile-header">
+            <i class="bi bi-person-gear"></i>
+            <h2>Edit Profile</h2>
+            <p>Update your personal information</p>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert-success-custom">
+                <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+            </div>
+        }
+
+        <form asp-action="EditProfile" method="post" class="profile-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label asp-for="FirstName" class="form-label">
+                        <i class="bi bi-person me-2"></i>First Name
+                    </label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label asp-for="LastName" class="form-label">
+                        <i class="bi bi-person me-2"></i>Last Name
+                    </label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label">
+                    <i class="bi bi-envelope me-2"></i>Email Address
+                </label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="PhoneNumber" class="form-label">
+                    <i class="bi bi-phone me-2"></i>Phone Number
+                </label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="+212 600 000 000" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="DriverLicenseNumber" class="form-label">
+                    <i class="bi bi-card-text me-2"></i>Driver License Number
+                </label>
+                <input asp-for="DriverLicenseNumber" class="form-control" placeholder="AB123456" />
+                <span asp-validation-for="DriverLicenseNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Address" class="form-label">
+                    <i class="bi bi-geo-alt me-2"></i>Address
+                </label>
+                <input asp-for="Address" class="form-control" placeholder="123 Main Street, City" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-save">
+                <i class="bi bi-check-lg me-2"></i>Save Changes
+            </button>
+        </form>
+    </div>
+</div>
